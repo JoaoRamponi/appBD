@@ -12,7 +12,8 @@ import {
     RefreshControl,
     StatusBar,
     Alert,
-    TextInput
+    TextInput,
+    Platform
 } from 'react-native';
 
 
@@ -40,6 +41,53 @@ export default function Home() {
     const [filteredDados, setFilteredDados] = useState([]);
     const [sortAsc, setSortAsc] = useState(true);
 
+    //FUNÇÃO EDITAR E EXCLUIR
+    //importar para funcionar a exclusao
+    // Platform
+function editarItem(item) {
+    navigation.navigate("Cadastro", { id: item.id });
+}
+
+
+function excluirItem(id) {
+
+    if (Platform.OS === 'web') {
+
+        const confirmar = window.confirm("Deseja excluir este registro?");
+
+        if (confirmar) {
+            deletar(id);
+        }
+
+    } else {
+
+        Alert.alert(
+            "Excluir",
+            "Deseja excluir este registro?",
+            [
+                { text: "Cancelar" },
+                { text: "Excluir", onPress: () => deletar(id) }
+            ]
+        );
+
+    }
+
+}
+    
+async function deletar(id) {
+
+    try {
+
+        await api.get(`appBD/excluir.php?id=${id}`);
+
+        listarDados();
+        totalDadosCadastrados();
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
 
     async function totalDadosCadastrados() {
 
@@ -231,6 +279,15 @@ function ordenarPorCidade() {
         <Text style={styles.cell}>{item.cidade}</Text>
         <Text style={styles.cell}>{item.estado}</Text>
 
+        <View style={styles.actions}>
+                <TouchableOpacity onPress={() => editarItem(item)}>
+                    <Ionicons name="create" size={20} color="blue" />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => excluirItem(item.id)}>
+                    <Ionicons name="trash" size={20} color="red" />
+                </TouchableOpacity>
+        </View>
 
 
     </View>
@@ -238,8 +295,7 @@ function ordenarPorCidade() {
 
   </View>
 
-</ScrollView>
-                       
+</ScrollView>                    
 </ScrollView>
 }
 </View>

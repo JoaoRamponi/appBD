@@ -28,8 +28,13 @@ const Cadastro = () => {
    
 }
 
-
-
+    
+//BUSCA OS DADOS PARA ALTERAR
+useEffect(() => {       
+    if (id) {
+        buscardados();
+    }
+}, [id]);
 
    async function saveData() {            
         
@@ -140,21 +145,21 @@ const Cadastro = () => {
                 />
             </View>
                        
-                  
-                <TouchableOpacity
-                    style={styles.Button}
-                    onPress={() => {
-                        //setSucess(true);
-                        saveData();
-                       // setSucess(false);
-                    }}
-                  
-                >
-                     <Ionicons name="footsteps-outline" size={35} color="#FFF" />
-                    <Text style={styles.ButtonText}>Salvar</Text>
-                </TouchableOpacity>
-              </ScrollView>                 
+             {/* PARA EDITAR TROQUE POR ESTE BOTAO QUE APARECERA DE ACORDO COM A FUNCAO EDITAR OU SALVAR           */}
+            <TouchableOpacity
+               style={styles.Button}
+               onPress={salvarOuEditar}
+            >
 
+               <Ionicons name="footsteps-outline" size={35} color="#FFF" />
+    
+               <Text style={styles.ButtonText}>
+                  {id ? "Alterar" : "Salvar"}
+               </Text>
+
+            </TouchableOpacity>    
+                
+              </ScrollView>                 
         </View>
     );
 }
