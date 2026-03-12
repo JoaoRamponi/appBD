@@ -6,11 +6,13 @@ import { styles } from './style';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
 import api from '../../../services/api';
-
+import { useRoute } from '@react-navigation/native';
 
 const Cadastro = () => {
     const navigation = useNavigation();
-    
+
+    const route = useRoute();
+    const id = route.params?.id;
 
     const [cidade, setCidade] = useState('');
     const [estado, setEstado] = useState('');
@@ -35,6 +37,64 @@ useEffect(() => {
         buscardados();
     }
 }, [id]);
+
+//FUNCAO EDITAR TELA DE CADASTRO
+async function editar() {            
+        
+        if (cidade == "" || estado == "" || transporte == "") {
+         showMessage({
+             message: "Erro ao Editar",
+             description: 'Preencha os Campos Obrigatórios!',
+             type: "warning",
+         });
+         return;
+     }
+
+     try {
+         const obj = {
+
+             id: id,
+             cidade: cidade, 
+             estado: estado,               
+             transporte: transporte,       
+         }
+
+         const res = await api.post('MOBILEAMS/appBD/editar.php', obj);
+
+         if (res.data.sucesso === false) {
+             showMessage({
+                 message: "Erro ao Editar",
+                 description: res.data.mensagem,
+                 type: "warning",
+                 duration: 3000,
+             });               
+             return;
+         }
+
+         setSucess(true);
+         showMessage({
+             message: "Registro alterado com Sucesso",
+             description: "Registro Alterado",
+             type: "success",
+             duration: 800,             
+         }); 
+         limparCampos();           
+       
+     } catch (error) {
+         Alert.alert("Ops", "Alguma coisa deu errado, tente novamente.");
+         setSucess(false);
+     }
+ }     
+
+     //ACRESCENTAR PARA VERIFICAR EDITAR OU SALVAR
+    function salvarOuEditar(){
+
+    if(id){
+        editar();   // altera registro
+    }else{
+        saveData(); // salva registro
+    }
+    }
 
    async function saveData() {            
         
