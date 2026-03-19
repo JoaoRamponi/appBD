@@ -30,6 +30,15 @@ const Cadastro = () => {
    
 }
 
+async function buscardados(){      
+    const res = await  api.get('appBD/buscarId.php?id=' + id);
+ 
+    setCidade(res.data.cidade);
+    setEstado(res.data.estado);
+    setTransporte(res.data.transporte);  
+
+}
+
     
 //BUSCA OS DADOS PARA ALTERAR
 useEffect(() => {       
@@ -205,7 +214,7 @@ async function editar() {
                 />
             </View>
                        
-             {/* PARA EDITAR TROQUE POR ESTE BOTAO QUE APARECERA DE ACORDO COM A FUNCAO EDITAR OU SALVAR           */}
+             {/* PARA EDITAR TROQUE POR ESTE BOTAO QUE APARECERA DE ACORDO COM A FUNCAO EDITAR OU SALVAR*/}
             <TouchableOpacity
                style={styles.Button}
                onPress={salvarOuEditar}

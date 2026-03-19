@@ -52,7 +52,7 @@ const CustomDrawer = () => {
                         onPress={() => {
 
                             // NOME DA TELA QUE SERÁ CHAMADO AO CLICAR NO ITEM DO MENU LATERAL
-                            navigation.navigate("TELA QUE SERA CHAMADA")
+                            navigation.navigate("Cadastro")
                             navigation.dispatch(DrawerActions.closeDrawer())
                         }}
                     >
