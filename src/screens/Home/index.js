@@ -78,7 +78,7 @@ async function deletar(id) {
 
     try {
 
-        await api.get(`appBD/excluir.php?id=${id}`);
+        await api.get(`MOBILEAMS/appBD/excluir.php?id=${id}`);
 
         listarDados();
         totalDadosCadastrados();
@@ -300,11 +300,5 @@ function ordenarPorCidade() {
 }
 </View>
 </View>
-
-
-
-            
-
-
     )
 }
